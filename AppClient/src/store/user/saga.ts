@@ -8,20 +8,20 @@ import { TOKENS_KEY } from '@/helpers/localStorage/LocalSotrage.static';
 import { toastShow } from '../toast/actions';
 import APPLICATION_ACTION from '../application/actions';
 
-import { userGetActive, userSet } from './actions';
-import { getActiveUserApi } from './api';
+import USER_ACTIONS from './actions';
+import { getCurrentUserApi } from './api';
 import { User } from './types';
 
 export default function* userSaga() {
-  yield takeLatest(userGetActive.type, getActiveUser);
+  yield takeLatest(USER_ACTIONS.getCurrentUser.type, getCurrentUser);
 }
 
-function* getActiveUser() {
+function* getCurrentUser() {
   try {
     if (!LocalStorage.getItem(TOKENS_KEY)) return;
     yield put(APPLICATION_ACTION.setLoading());
-    const response: User = yield call(getActiveUserApi);
-    yield put(userSet(response));
+    const response: User = yield call(getCurrentUserApi);
+    yield put(USER_ACTIONS.setUser(response));
     yield put(APPLICATION_ACTION.setLoading());
   } catch (e) {
     yield put(push(PATHS.auth));

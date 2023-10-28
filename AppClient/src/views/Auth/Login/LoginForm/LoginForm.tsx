@@ -3,7 +3,7 @@ import { Button, Box } from '@mui/material';
 
 import FormInput from '@/components/FormField/FormInput';
 import { useAppDispatch } from '@/store/hooks';
-import { authLogin } from '@/store/auth/actions';
+import AUTH_ACTIONS from '@/store/auth/actions';
 
 import { VALIDATION_MESSAGES } from '../../Auth.static';
 
@@ -32,7 +32,7 @@ const LoginForm = () => {
       noValidate
       sx={{ mt: 1 }}
       onSubmit={handleSubmit(async (data) => {
-        dispatch(authLogin(data));
+        dispatch(AUTH_ACTIONS.loginUser(data));
       })}
     >
       <FormInput

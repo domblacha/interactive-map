@@ -7,22 +7,22 @@ import { Tokens } from '@/helpers/localStorage/LocalStorage.types';
 import { TOKENS_KEY } from '@/helpers/localStorage/LocalSotrage.static';
 import { PATHS } from '@/routes';
 
-import { userClear, userSet } from '../user/actions';
+import USER_ACTIONS from '../user/actions';
 import APPLICATION_ACTION from '../application/actions';
-import { getActiveUserApi } from '../user/api';
+import { getCurrentUserApi } from '../user/api';
 import { User } from '../user/types';
 import { toastShow } from '../toast/actions';
-import { authLogin, authLogout, authRegister } from './actions';
+import AUTH_ACTIONS from './actions';
 import { loginUserApi, logoutUserApi, registerUserApi } from './api';
 import { LoginUserResponse, RegisterUserResponse } from './types';
 
 export default function* authSaga() {
-  yield takeLatest(authRegister.type, registerUser);
-  yield takeLatest(authLogin.type, loginUser);
-  yield takeLatest(authLogout.type, logoutUser);
+  yield takeLatest(AUTH_ACTIONS.registerUser.type, registerUser);
+  yield takeLatest(AUTH_ACTIONS.loginUser.type, loginUser);
+  yield takeLatest(AUTH_ACTIONS.logoutUser.type, logoutUser);
 }
 
-function* registerUser(action: ReturnType<typeof authRegister>) {
+function* registerUser(action: ReturnType<typeof AUTH_ACTIONS.registerUser>) {
   try {
     const response: RegisterUserResponse = yield call(
       registerUserApi,
@@ -44,7 +44,7 @@ function* registerUser(action: ReturnType<typeof authRegister>) {
   }
 }
 
-function* loginUser(action: ReturnType<typeof authRegister>) {
+function* loginUser(action: ReturnType<typeof AUTH_ACTIONS.registerUser>) {
   try {
     yield put(APPLICATION_ACTION.setLoading());
     const response: LoginUserResponse = yield call(
@@ -59,9 +59,9 @@ function* loginUser(action: ReturnType<typeof authRegister>) {
       refreshToken,
     });
 
-    const user: User = yield call(getActiveUserApi);
+    const user: User = yield call(getCurrentUserApi);
 
-    yield put(userSet(user));
+    yield put(USER_ACTIONS.setUser(user));
     yield put(APPLICATION_ACTION.setLoading());
     yield put(push('/dashboard'));
     yield put(
@@ -82,7 +82,7 @@ function* logoutUser() {
   try {
     yield call(logoutUserApi);
     yield call(LocalStorage.removeItem, TOKENS_KEY);
-    yield put(userClear());
+    yield put(USER_ACTIONS.clearUser());
     yield put(push('/auth'));
     yield put(
       toastShow({ message: 'Poprawnie wylogowano.', variant: 'success' })

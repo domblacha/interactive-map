@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { UserState } from './types';
-import { userClear, userSet } from './actions';
+import USER_ACTIONS from './actions';
 
 const initialState: UserState = {
   isLoggedIn: false,
@@ -8,14 +8,14 @@ const initialState: UserState = {
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(userSet, (state, { payload }) => {
+    .addCase(USER_ACTIONS.setUser, (state, { payload }) => {
       return {
         ...state,
         ...payload,
         isLoggedIn: true,
       };
     })
-    .addCase(userClear, () => {
+    .addCase(USER_ACTIONS.clearUser, () => {
       return initialState;
     });
 });

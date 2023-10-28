@@ -5,7 +5,7 @@ import FormInput from '@/components/FormField/FormInput';
 
 import { VALIDATION_RULES, VALIDATION_MESSAGES } from '../../Auth.static';
 import { useAppDispatch } from '@/store/hooks';
-import { authRegister } from '@/store/auth/actions';
+import AUTH_ACTIONS from '@/store/auth/actions';
 
 type FormValues = {
   email: string;
@@ -34,7 +34,7 @@ const RegisterForm = () => {
     VALIDATION_MESSAGES.passwordsNotMatch;
 
   const onSubmit = (data: FormValues) => {
-    dispatch(authRegister(data));
+    dispatch(AUTH_ACTIONS.registerUser(data));
   };
 
   return (

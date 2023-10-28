@@ -11,7 +11,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 
 import { useAppDispatch } from '@/store/hooks';
-import { authLogout } from '@/store/auth/actions';
+import AUTH_ACTIONS from '@/store/auth/actions';
 
 export default function AvatarMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -23,7 +23,7 @@ export default function AvatarMenu() {
   };
 
   const handleClickLogout = () => {
-    dispatch(authLogout());
+    dispatch(AUTH_ACTIONS.logoutUser());
     setAnchorEl(null);
   };
 
