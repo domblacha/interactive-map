@@ -1,13 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ApplicationState } from './types';
-import { applicationSetIsLoading } from './actions';
+import APPLICATION_ACTION from './actions';
 
 const initialState: ApplicationState = {
   isLoading: false,
 };
 
 export const applicationReducer = createReducer(initialState, (builder) => {
-  builder.addCase(applicationSetIsLoading, (state) => {
+  builder.addCase(APPLICATION_ACTION.setLoading, (state) => {
     return {
       ...state,
       isLoading: !state.isLoading,

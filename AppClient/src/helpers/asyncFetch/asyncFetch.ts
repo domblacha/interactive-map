@@ -83,7 +83,7 @@ export default async function asyncFetch<ResponseType = void>({
   try {
     const response = await customeFetch<ResponseType>({
       method,
-      url: 'https://localhost:3001/api/' + url,
+      url: `https://localhost:3001/api/${url}`,
       data: body,
     });
 

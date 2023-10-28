@@ -1,6 +1,7 @@
+import { Box, CircularProgress } from '@mui/material';
+
 import { selectApplication } from '@/store/application/selectors';
 import { useAppSelector } from '@/store/hooks';
-import { Box, CircularProgress } from '@mui/material';
 
 const AppLoading = () => {
   const { isLoading } = useAppSelector(selectApplication);

@@ -5,11 +5,12 @@ import { PATHS } from '@/routes';
 import LocalStorage from '@/helpers/localStorage';
 import { TOKENS_KEY } from '@/helpers/localStorage/LocalSotrage.static';
 
+import { toastShow } from '../toast/actions';
+import APPLICATION_ACTION from '../application/actions';
+
 import { userGetActive, userSet } from './actions';
 import { getActiveUserApi } from './api';
 import { User } from './types';
-import { toastShow } from '../toast/actions';
-import { applicationSetIsLoading } from '../application/actions';
 
 export default function* userSaga() {
   yield takeLatest(userGetActive.type, getActiveUser);
@@ -17,10 +18,11 @@ export default function* userSaga() {
 
 function* getActiveUser() {
   try {
-    yield put(applicationSetIsLoading());
+    if (!LocalStorage.getItem(TOKENS_KEY)) return;
+    yield put(APPLICATION_ACTION.setLoading());
     const response: User = yield call(getActiveUserApi);
     yield put(userSet(response));
-    yield put(applicationSetIsLoading());
+    yield put(APPLICATION_ACTION.setLoading());
   } catch (e) {
     yield put(push(PATHS.auth));
     yield put(
@@ -30,6 +32,6 @@ function* getActiveUser() {
       })
     );
     yield call(LocalStorage.removeItem, TOKENS_KEY);
-    yield put(applicationSetIsLoading());
+    yield put(APPLICATION_ACTION.setLoading());
   }
 }

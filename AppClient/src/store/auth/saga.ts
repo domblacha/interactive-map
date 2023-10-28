@@ -8,7 +8,7 @@ import { TOKENS_KEY } from '@/helpers/localStorage/LocalSotrage.static';
 import { PATHS } from '@/routes';
 
 import { userClear, userSet } from '../user/actions';
-import { applicationSetIsLoading } from '../application/actions';
+import APPLICATION_ACTION from '../application/actions';
 import { getActiveUserApi } from '../user/api';
 import { User } from '../user/types';
 import { toastShow } from '../toast/actions';
@@ -46,7 +46,7 @@ function* registerUser(action: ReturnType<typeof authRegister>) {
 
 function* loginUser(action: ReturnType<typeof authRegister>) {
   try {
-    yield put(applicationSetIsLoading());
+    yield put(APPLICATION_ACTION.setLoading());
     const response: LoginUserResponse = yield call(
       loginUserApi,
       action.payload
@@ -62,13 +62,13 @@ function* loginUser(action: ReturnType<typeof authRegister>) {
     const user: User = yield call(getActiveUserApi);
 
     yield put(userSet(user));
-    yield put(applicationSetIsLoading());
+    yield put(APPLICATION_ACTION.setLoading());
     yield put(push('/dashboard'));
     yield put(
       toastShow({ message: 'Poprawnie zalogowano.', variant: 'success' })
     );
   } catch (e) {
-    yield put(applicationSetIsLoading());
+    yield put(APPLICATION_ACTION.setLoading());
     yield put(
       toastShow({
         message: (e as Exception).response?.data.message,

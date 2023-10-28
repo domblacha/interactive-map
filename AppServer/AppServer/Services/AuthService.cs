@@ -157,43 +157,43 @@ namespace AppServer.Services
             if (dto.Password != dto.ConfirmPassword)
                 throw new BadRequestException("Hasła nie są zgodne.");
 
-            var userExists = await _userManager.FindByEmailAsync(dto.Email);
+            var user = await _userManager.FindByEmailAsync(dto.Email);
 
-            if (userExists is not null)
+            if (user is not null)
                 throw new AlreadyExistsException("Podany email jest już zajęty.");
 
-            var user = new User()
+            var newUser = new User()
             {
                 Email = dto.Email,
                 UserName = dto.Email
             };
 
-            var result = await _userManager.CreateAsync(user, dto.Password);
+            var createPwdResult = await _userManager.CreateAsync(newUser, dto.Password);
 
-            if (!result.Succeeded)
+            if (!createPwdResult.Succeeded)
             {
                 return new RegisterUserResponse()
                 {
                     Message = "Ups! Coś poszło nie tak, spróbuj ponownie później.",
                     IsSuccess = false,
-                    Errors = result.Errors
+                    Errors = createPwdResult.Errors
                 };
             }
 
             if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
             {
-                var addRoleResult = await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+                var addRoleResult = await _userManager.AddToRoleAsync(newUser, UserRoles.Admin);
 
                 if (!addRoleResult.Succeeded)
                     throw new Exception("Ups! Coś poszło nie tak, spróbuj ponownie później.");
             }
 
-            var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
 
             var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-            string url = $"{_configuration["AppUrl"]}/api/auth/confirm-email?userid={user.Id}&token={validEmailToken}";
+            string url = $"{_configuration["AppUrl"]}/api/auth/confirm-email?userid={newUser.Id}&token={validEmailToken}";
 
             await _mailManager.SendEmailAsync(new MailData()
             {

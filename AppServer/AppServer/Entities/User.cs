@@ -8,5 +8,7 @@ namespace AppServer.Entities
         public string? LastName { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
+
+        public ICollection<Marker> Markers { get; set; }
     }
 }

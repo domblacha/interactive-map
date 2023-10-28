@@ -1,3 +1,4 @@
+using AppServer;
 using AppServer.Entities;
 using AppServer.Helpers;
 using AppServer.Helpers.Interfaces;
@@ -83,8 +84,10 @@ builder.Configuration.GetSection("MailSettings").Bind(mailSettings);
 builder.Services.AddSingleton(mailSettings);
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMarkerService, MarkerService>();
 builder.Services.AddScoped<IJwtAuthManager, JwtAuthManager>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();

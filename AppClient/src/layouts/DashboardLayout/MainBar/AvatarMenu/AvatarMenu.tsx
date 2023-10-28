@@ -1,5 +1,4 @@
 import { MouseEvent, useState } from 'react';
-
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -10,22 +9,21 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+
+import { useAppDispatch } from '@/store/hooks';
 import { authLogout } from '@/store/auth/actions';
-import { selectUser } from '@/store/user/selectors';
 
 export default function AvatarMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const dispatch = useAppDispatch();
-  const { id } = useAppSelector(selectUser);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClickLogout = () => {
-    if (id) dispatch(authLogout({ id }));
+    dispatch(authLogout());
     setAnchorEl(null);
   };
 

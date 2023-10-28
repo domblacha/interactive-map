@@ -4,6 +4,7 @@ using AppServer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231027072145_AddMarker")]
+    partial class AddMarker
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +27,7 @@ namespace AppServer.Migrations
 
             modelBuilder.Entity("AppServer.Entities.Marker", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("MarkerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -32,11 +35,11 @@ namespace AppServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
+                    b.Property<int>("Latitude")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
+                    b.Property<int>("Longitude")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -46,11 +49,11 @@ namespace AppServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MarkerId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Markers");
+                    b.ToTable("Marker");
                 });
 
             modelBuilder.Entity("AppServer.Entities.User", b =>

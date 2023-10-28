@@ -1,7 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 
-const APPLICATION_SET_IS_LOADING = 'application/setIsLoading';
-const APPLICATION_INIT = 'application/init';
+const APPLICATION_SET_LOADING = 'application/setLoading';
 
-export const applicationSetIsLoading = createAction(APPLICATION_SET_IS_LOADING);
-export const applicationInit = createAction(APPLICATION_INIT);
+const APPLICATION_ACTION = {
+  setLoading: createAction(APPLICATION_SET_LOADING),
+};
+
+export default APPLICATION_ACTION;
