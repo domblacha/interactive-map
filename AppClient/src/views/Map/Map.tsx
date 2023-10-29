@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
-import ReactMapGL, { Marker, PointerEvent, ViewportProps } from 'react-map-gl';
-import RoomIcon from '@mui/icons-material/Room';
+import { useCallback, useState } from 'react';
+import ReactMapGL, { PointerEvent, ViewportProps } from 'react-map-gl';
 
-import { useAppSelector } from '@/store/hooks';
-import { selectMarkers } from '@/store/map/selectors';
-import AddLocationModal from './AddLocationModal';
+import Markers from './Markers';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { MAP_ACTION } from '@/store/map/actions';
+import { selectUser } from '@/store/user/selectors';
 
 const MIN_LONGITUDE = 19.659970559886762;
 const MAX_LONGITUDE = 20.22832106155512;
@@ -12,11 +12,9 @@ const MIN_LATITUDE = 49.94263135854484;
 const MAX_LATITUDE = 50.19319323997475;
 
 const Map = () => {
-  const [isAddLocationModalOpen, setIsAddLocationModal] = useState(false);
-  const [selectedMarkerCoordinates, setSelectedMarkerCoordinates] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+
   const [viewport, setViewport] = useState({
     latitude: 50.0619474,
     longitude: 19.9368564,
@@ -27,28 +25,18 @@ const Map = () => {
     maxZoom: 15,
   } as ViewportProps);
 
-  const markers = useAppSelector(selectMarkers);
+  const handleMapClick = useCallback((event: PointerEvent) => {
+    if (!user.isLoggedIn) {
+      return;
+    }
 
-  const markerList = useMemo(() => {
-    console.log('render markers');
-    return markers.map((marker) => (
-      <Marker
-        key={marker.id}
-        longitude={marker.longitude}
-        latitude={marker.latitude}
-      >
-        <RoomIcon color="secondary" />
-      </Marker>
-    ));
-  }, [markers]);
-
-  const handleMapClick = (event: PointerEvent) => {
-    setSelectedMarkerCoordinates({
-      latitude: event.lngLat[1],
-      longitude: event.lngLat[0],
-    });
-    setIsAddLocationModal(true);
-  };
+    dispatch(
+      MAP_ACTION.selectCoordinates({
+        latitude: event.lngLat[1],
+        longitude: event.lngLat[0],
+      })
+    );
+  }, []);
 
   const handleViewport = useCallback((viewport: ViewportProps) => {
     if (viewport.longitude < MIN_LONGITUDE) {
@@ -71,22 +59,15 @@ const Map = () => {
   }, []);
 
   return (
-    <>
-      <AddLocationModal
-        isOpen={isAddLocationModalOpen}
-        onClose={setIsAddLocationModal}
-        coordinates={selectedMarkerCoordinates}
-      />
-      <ReactMapGL
-        {...viewport}
-        mapStyle={import.meta.env.VITE_MAPBOX_MAP_STYLE}
-        mapboxApiAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
-        onViewportChange={handleViewport}
-        onClick={handleMapClick}
-      >
-        {markerList}
-      </ReactMapGL>
-    </>
+    <ReactMapGL
+      {...viewport}
+      mapStyle={import.meta.env.VITE_MAPBOX_MAP_STYLE}
+      mapboxApiAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
+      onViewportChange={handleViewport}
+      onClick={handleMapClick}
+    >
+      <Markers />
+    </ReactMapGL>
   );
 };
 

@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+
 import FormInput from '@/components/FormField/FormInput';
 import { useAppDispatch } from '@/store/hooks';
 import { MAP_ACTION } from '@/store/map/actions';
+import { Coordinates } from '@/store/map/types';
 
 type FormValues = {
   name: string;
@@ -14,10 +16,7 @@ type FormValues = {
 
 interface AddLocationFormProps {
   handleClose: () => void;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
+  coordinates: Coordinates | null;
 }
 
 const AddLocationForm = ({
@@ -42,6 +41,8 @@ const AddLocationForm = ({
       noValidate
       sx={{ mt: 1 }}
       onSubmit={handleSubmit((data) => {
+        if (!coordinates) return;
+
         dispatch(
           MAP_ACTION.createMarker({
             ...data,

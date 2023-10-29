@@ -3,35 +3,32 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { selectMapState } from '@/store/map/selectors';
+import { MAP_ACTION } from '@/store/map/actions';
+
 import AddLocationForm from './AddLocationForm';
 
-interface AddLocationModalProps {
-  isOpen: boolean;
-  onClose: React.Dispatch<React.SetStateAction<boolean>>;
-  coordinates: {
-    longitude: number;
-    latitude: number;
-  };
-}
+const AddLocationModal = () => {
+  const dispatch = useAppDispatch();
+  const { selectedCoordinates } = useAppSelector(selectMapState);
 
-const AddLocationModal = ({
-  isOpen,
-  onClose,
-  coordinates,
-}: AddLocationModalProps) => {
   const handleClose = () => {
-    onClose(false);
+    dispatch(MAP_ACTION.clearSelectedCoordinates());
   };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
+    <Dialog open={!!selectedCoordinates} onClose={handleClose}>
       <DialogTitle>Dodaj miejsce</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Aby dodać znacznik na mapie w zaznacznonym punkcie, uzupełnij
           formularz i&nbsp;zatwierdz.
         </DialogContentText>
-        <AddLocationForm coordinates={coordinates} handleClose={handleClose} />
+        <AddLocationForm
+          coordinates={selectedCoordinates}
+          handleClose={handleClose}
+        />
       </DialogContent>
     </Dialog>
   );

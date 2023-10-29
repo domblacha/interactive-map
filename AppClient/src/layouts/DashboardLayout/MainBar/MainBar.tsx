@@ -5,8 +5,9 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
+import AvatarMenu from '@/components/AvatarMenu';
+
 import Styled from './MainBar.styled';
-import AvatarMenu from './AvatarMenu';
 
 interface MainBarProps {
   isOpen: boolean;

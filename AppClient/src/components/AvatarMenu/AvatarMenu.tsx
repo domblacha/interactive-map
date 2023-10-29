@@ -4,19 +4,23 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
-import PersonAdd from '@mui/icons-material/PersonAdd';
+import RoomIcon from '@mui/icons-material/Room';
 import Settings from '@mui/icons-material/Settings';
 
 import { useAppDispatch } from '@/store/hooks';
 import AUTH_ACTIONS from '@/store/auth/actions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { PATHS } from '@/routes';
 
-export default function AvatarMenu() {
+const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const open = Boolean(anchorEl);
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -24,7 +28,14 @@ export default function AvatarMenu() {
 
   const handleClickLogout = () => {
     dispatch(AUTH_ACTIONS.logoutUser());
-    setAnchorEl(null);
+  };
+
+  const handleDashboardClick = () => {
+    navigate(PATHS.dashboard);
+  };
+
+  const handleMapClick = () => {
+    navigate(PATHS.map);
   };
 
   const handleClose = () => {
@@ -32,7 +43,7 @@ export default function AvatarMenu() {
   };
   return (
     <>
-      <Tooltip title="Ustawienia konta">
+      <Tooltip title="Menu">
         <IconButton
           onClick={handleClick}
           size="small"
@@ -41,7 +52,7 @@ export default function AvatarMenu() {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+          <Avatar sx={{ width: 32, height: 32 }}>D</Avatar>
         </IconButton>
       </Tooltip>
       <Menu
@@ -79,25 +90,21 @@ export default function AvatarMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+        {location.pathname === '/' ? (
+          <MenuItem onClick={handleDashboardClick}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Dashboard
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={handleMapClick}>
+            <ListItemIcon>
+              <RoomIcon fontSize="small" />
+            </ListItemIcon>
+            Mapa
+          </MenuItem>
+        )}
         <MenuItem onClick={handleClickLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -107,4 +114,6 @@ export default function AvatarMenu() {
       </Menu>
     </>
   );
-}
+};
+
+export default AvatarMenu;

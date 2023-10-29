@@ -1,7 +1,6 @@
-import { LinkProps, Link as MuiLink } from '@mui/material';
+import { PropsWithChildren } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-
-import React, { PropsWithChildren } from 'react';
+import { LinkProps, Link as MuiLink } from '@mui/material';
 
 const InternalLink = ({ children, ...props }: PropsWithChildren<LinkProps>) => {
   return (

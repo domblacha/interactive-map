@@ -1,3 +1,6 @@
 import { RootState } from '../store.types';
 
-export const selectMarkers = (state: RootState) => state.map.markers;
+export const selectMapState = (state: RootState) => state.map;
+
+export const selectMarkers = (state: RootState) =>
+  selectMapState(state).markers;

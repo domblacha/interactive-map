@@ -5,6 +5,7 @@ import { MapState } from './types';
 
 const initialState: MapState = {
   markers: [],
+  selectedCoordinates: null,
 };
 
 export const mapReducer = createReducer(initialState, (builder) => {
@@ -18,6 +19,18 @@ export const mapReducer = createReducer(initialState, (builder) => {
     return {
       ...state,
       markers: [...state.markers, payload],
+    };
+  });
+  builder.addCase(MAP_ACTION.selectCoordinates, (state, { payload }) => {
+    return {
+      ...state,
+      selectedCoordinates: payload,
+    };
+  });
+  builder.addCase(MAP_ACTION.clearSelectedCoordinates, (state) => {
+    return {
+      ...state,
+      selectedCoordinates: null,
     };
   });
 });
