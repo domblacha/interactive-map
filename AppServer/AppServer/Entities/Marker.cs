@@ -13,7 +13,10 @@ namespace AppServer.Entities
         public string Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-
         public string UserId { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

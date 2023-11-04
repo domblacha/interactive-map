@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
 import ReactMapGL, { PointerEvent, ViewportProps } from 'react-map-gl';
 
-import Markers from './Markers';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { MAP_ACTION } from '@/store/map/actions';
 import { selectUser } from '@/store/user/selectors';
+
+import Markers from './Markers';
 
 const MIN_LONGITUDE = 19.659970559886762;
 const MAX_LONGITUDE = 20.22832106155512;
@@ -13,7 +14,7 @@ const MAX_LATITUDE = 50.19319323997475;
 
 const Map = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
+  const { isLoggedIn } = useAppSelector(selectUser);
 
   const [viewport, setViewport] = useState({
     latitude: 50.0619474,
@@ -26,9 +27,7 @@ const Map = () => {
   } as ViewportProps);
 
   const handleMapClick = useCallback((event: PointerEvent) => {
-    if (!user.isLoggedIn) {
-      return;
-    }
+    if (!isLoggedIn) return;
 
     dispatch(
       MAP_ACTION.selectCoordinates({

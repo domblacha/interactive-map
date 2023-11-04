@@ -165,6 +165,8 @@ namespace AppServer.Services
             var newUser = new User()
             {
                 Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
                 UserName = dto.Email
             };
 

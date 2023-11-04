@@ -46,9 +46,29 @@ namespace AppServer.Services
             return _mapper.Map<MarkerResponse>(newMarker);
         }
 
+        public async Task DeleteMarkerAsync(DeleteMarkerDto dto)
+        {
+            var marker = await _dbContext
+                .Markers
+                .FirstOrDefaultAsync(marker => marker.Id == dto.Id);
+
+            if (marker is null)
+            {
+                throw new NotFoundException("Znacznik nie istnieje");
+            }
+
+            _dbContext.Remove(marker);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<MarkerResponse>> GetAllMarkersAsync()
         {
-            var markers = await _dbContext.Markers.ToListAsync();
+            var markers = await _dbContext
+                .Markers
+                .Include(m => m.Comments)
+                .Include(m => m.Ratings)
+                .Include(m => m.User)
+                .ToListAsync();
 
             return _mapper.Map<List<MarkerResponse>>(markers);
         }

@@ -43,9 +43,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
-    options.Password.RequireDigit = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
+    options.Password.RequireUppercase = false;
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
@@ -88,6 +88,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMarkerService, MarkerService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IJwtAuthManager, JwtAuthManager>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();

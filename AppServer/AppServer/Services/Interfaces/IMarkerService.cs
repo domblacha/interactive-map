@@ -8,5 +8,7 @@ namespace AppServer.Services.Interfaces
         Task<IEnumerable<MarkerResponse>> GetAllMarkersAsync();
 
         Task<MarkerResponse> CreateMarkerAsync(CreateMarkerDto dto);
+
+        Task DeleteMarkerAsync(DeleteMarkerDto dto);
     }
 }

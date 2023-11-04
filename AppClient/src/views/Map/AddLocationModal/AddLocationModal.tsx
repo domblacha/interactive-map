@@ -13,12 +13,14 @@ const AddLocationModal = () => {
   const dispatch = useAppDispatch();
   const { selectedCoordinates } = useAppSelector(selectMapState);
 
+  const isModalOpen = !!selectedCoordinates;
+
   const handleClose = () => {
     dispatch(MAP_ACTION.clearSelectedCoordinates());
   };
 
   return (
-    <Dialog open={!!selectedCoordinates} onClose={handleClose}>
+    <Dialog open={isModalOpen} onClose={handleClose}>
       <DialogTitle>Dodaj miejsce</DialogTitle>
       <DialogContent>
         <DialogContentText>

@@ -9,6 +9,8 @@ namespace AppServer.Entities
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
 
-        public ICollection<Marker> Markers { get; set; }
+        public virtual ICollection<Marker> Markers { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

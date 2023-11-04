@@ -8,7 +8,14 @@ namespace AppServer
     {
         public MappingProfile()
         {
-            CreateMap<Marker, MarkerResponse>();
+            CreateMap<Marker, MarkerResponse>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.User.FirstName ?? ""));
+
+            CreateMap<Comment, CommentResponse>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.User.FirstName ?? ""));
+
+            CreateMap<Rating, RatingResponse>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.User.FirstName ?? ""));
         }
     }
 }

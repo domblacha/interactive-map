@@ -2,11 +2,17 @@ import React from 'react';
 import { Marker } from 'react-map-gl';
 import RoomIcon from '@mui/icons-material/Room';
 
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectMarkers } from '@/store/map/selectors';
+import { MAP_ACTION } from '@/store/map/actions';
 
 const Markers = React.memo(() => {
+  const dispatch = useAppDispatch();
   const markers = useAppSelector(selectMarkers);
+
+  const handleOnMarkerClick = (markerId: string) => {
+    dispatch(MAP_ACTION.selectLocation({ markerId }));
+  };
 
   return markers.map((marker) => (
     <Marker
@@ -14,7 +20,11 @@ const Markers = React.memo(() => {
       longitude={marker.longitude}
       latitude={marker.latitude}
     >
-      <RoomIcon color="secondary" />
+      <RoomIcon
+        color="secondary"
+        sx={{ cursor: 'pointer' }}
+        onClick={() => handleOnMarkerClick(marker.id)}
+      />
     </Marker>
   ));
 });

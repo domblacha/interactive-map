@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { MAP_ACTION } from './actions';
-import { MapState } from './types';
+import { MapState, Marker } from './types';
 
 const initialState: MapState = {
   markers: [],
   selectedCoordinates: null,
+  selectedLocation: null,
 };
 
 export const mapReducer = createReducer(initialState, (builder) => {
@@ -31,6 +32,20 @@ export const mapReducer = createReducer(initialState, (builder) => {
     return {
       ...state,
       selectedCoordinates: null,
+    };
+  });
+  builder.addCase(MAP_ACTION.selectLocation, (state, { payload }) => {
+    return {
+      ...state,
+      selectedLocation: state.markers.find(
+        (marker) => marker.id === payload.markerId
+      ) as Marker,
+    };
+  });
+  builder.addCase(MAP_ACTION.clearSelectedLocation, (state) => {
+    return {
+      ...state,
+      selectedLocation: null,
     };
   });
 });

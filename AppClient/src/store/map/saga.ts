@@ -8,16 +8,13 @@ import { Marker } from './types';
 import { createMarkerApi, getAllMarkersApi } from './api';
 
 export default function* mapSaga() {
-  yield takeLatest(MAP_ACTION.getAllMarkers.type, getAllMarkers);
   yield takeLatest(MAP_ACTION.createMarker.type, createMarker);
 }
 
-function* getAllMarkers() {
+export function* getAllMarkers() {
   try {
-    yield put(APPLICATION_ACTION.setLoading());
     const response: Marker[] = yield call(getAllMarkersApi);
     yield put(MAP_ACTION.setMarkers(response));
-    yield put(APPLICATION_ACTION.setLoading());
   } catch (e) {
     yield put(
       toastShow({
@@ -25,7 +22,6 @@ function* getAllMarkers() {
         variant: 'error',
       })
     );
-    yield put(APPLICATION_ACTION.setLoading());
   }
 }
 

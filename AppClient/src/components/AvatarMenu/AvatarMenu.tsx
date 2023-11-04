@@ -9,13 +9,15 @@ import Logout from '@mui/icons-material/Logout';
 import RoomIcon from '@mui/icons-material/Room';
 import Settings from '@mui/icons-material/Settings';
 
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import AUTH_ACTIONS from '@/store/auth/actions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes';
+import { selectUser } from '@/store/user/selectors';
 
 const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { firstName } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,7 +54,9 @@ const AvatarMenu = () => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>D</Avatar>
+          <Avatar sx={{ width: 32, height: 32 }}>
+            {firstName ? firstName[0] : 'U'}
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

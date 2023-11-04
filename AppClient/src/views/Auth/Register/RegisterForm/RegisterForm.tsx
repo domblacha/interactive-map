@@ -8,6 +8,8 @@ import { useAppDispatch } from '@/store/hooks';
 import AUTH_ACTIONS from '@/store/auth/actions';
 
 type FormValues = {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -44,6 +46,36 @@ const RegisterForm = () => {
       sx={{ mt: 1 }}
       onSubmit={handleSubmit(onSubmit)}
     >
+      <FormInput
+        margin="normal"
+        fullWidth
+        id="firstName"
+        label="Imię"
+        name="firstName"
+        autoComplete="firstName"
+        autoFocus
+        required
+        rules={{
+          required: VALIDATION_MESSAGES.requiredField,
+        }}
+        control={control}
+        errors={errors}
+      />
+      <FormInput
+        margin="normal"
+        fullWidth
+        id="lastName"
+        label="Nazwisko"
+        name="lastName"
+        autoComplete="lastName"
+        autoFocus
+        required
+        rules={{
+          required: VALIDATION_MESSAGES.requiredField,
+        }}
+        control={control}
+        errors={errors}
+      />
       <FormInput
         margin="normal"
         fullWidth

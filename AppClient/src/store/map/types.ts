@@ -5,6 +5,19 @@ export interface Marker {
   description: string;
   latitude: number;
   longitude: number;
+  authorName: string;
+  comments: Comment[];
+  ratings: Rating[];
+}
+
+interface Comment {
+  text: string;
+  authorName: string;
+}
+
+interface Rating {
+  value: number;
+  authorName: string;
 }
 
 export interface Coordinates {
@@ -15,6 +28,7 @@ export interface Coordinates {
 export interface MapState {
   markers: Marker[];
   selectedCoordinates: Coordinates | null;
+  selectedLocation: Marker | null;
 }
 
 export interface CreateMarkerPayload {
@@ -25,5 +39,8 @@ export interface CreateMarkerPayload {
 }
 
 export type SelectCoordinatesPayload = Coordinates;
+export type SelectLocationPayload = {
+  markerId: string;
+};
 export type MarkersPayload = Marker[];
 export type MarkerPayload = Marker;

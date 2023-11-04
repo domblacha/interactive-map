@@ -32,5 +32,14 @@ namespace AppServer.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete()]
+        [Authorize]
+        public async Task<IActionResult> DeleteMarker(DeleteMarkerDto dto)
+        {
+            await _markerService.DeleteMarkerAsync(dto);
+
+            return Ok();
+        }
     }
 }
