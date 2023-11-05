@@ -43,6 +43,7 @@ const AvatarMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <Tooltip title="Menu">

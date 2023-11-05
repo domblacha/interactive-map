@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-import AppLoading from './components/AppLoading/AppLoading';
-import Toast from './components/Toast/Toast';
-import { useAppDispatch } from './store/hooks';
 import AppRoutes from './routes/';
+import { useAppDispatch } from './store/hooks';
 import APPLICATION_ACTION from './store/application/actions';
+import AppLoading from './components/AppLoading';
+import Toast from './components/Toast';
 
 function App() {
   const dispatch = useAppDispatch();

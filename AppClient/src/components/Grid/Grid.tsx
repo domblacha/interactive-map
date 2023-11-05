@@ -1,18 +1,6 @@
 import { Grid, GridProps, Box, BoxProps } from '@mui/material';
 import { PropsWithChildren } from 'react';
 
-/**
- * Jak używać
- *
- * import Grid from '@components/Grid';
- *
- * <Grid.Container>
- *    <Grid.Row>
- *      <Grid.Column>Item</Grid.Column>
- *   </Grid.Row>
- * </Grid.Container>
- */
-
 export function Container({
   children,
   ...rest
