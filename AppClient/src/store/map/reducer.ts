@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { MAP_ACTION } from './actions';
-import { MapState, Marker } from './types';
+import { MapState } from './types';
 
 const initialState: MapState = {
   markers: [],
