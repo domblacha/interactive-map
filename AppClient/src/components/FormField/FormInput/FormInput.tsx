@@ -1,12 +1,12 @@
+import { Controller, FieldValues } from 'react-hook-form';
 import { TextField, TextFieldProps } from '@mui/material';
-import { Controller } from 'react-hook-form';
 
 import { FormField } from '../types';
 
-type FormInputProps<TFormValues extends Record<string, unknown>> =
-  FormField<TFormValues> & TextFieldProps;
+type FormInputProps<TFormValues extends FieldValues> = FormField<TFormValues> &
+  TextFieldProps;
 
-export default function FormInput<TFormValues extends Record<string, unknown>>({
+export default function FormInput<TFormValues extends FieldValues>({
   name,
   control,
   rules,

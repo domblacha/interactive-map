@@ -67,6 +67,7 @@ const AddLocationForm = ({
         errors={errors}
       />
       <FormInput
+        multiline
         margin="normal"
         required
         fullWidth

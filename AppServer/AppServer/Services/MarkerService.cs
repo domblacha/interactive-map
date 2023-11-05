@@ -24,26 +24,33 @@ namespace AppServer.Services
 
         public async Task<MarkerResponse> CreateMarkerAsync(CreateMarkerDto dto)
         {
-            var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId is null)
             {
-                throw new BadRequestException("Coś poszło nie tak, spróbuj później");
+                var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                var user = await _dbContext
+                  .Users
+                  .FirstOrDefaultAsync(user => user.Id == userId);
+
+                if (user is null)
+                {
+                    throw new BadRequestException("Coś poszło nie tak, spróbuj później");
+                }
+
+                var newMarker = new Marker()
+                {
+                    Name = dto.Name,
+                    Description = dto.Description,
+                    Latitude = dto.Latitude,
+                    Longitude = dto.Longitude,
+                    UserId = userId!,
+                    User = user,
+                };
+
+                _dbContext.Add(newMarker);
+                await _dbContext.SaveChangesAsync();
+
+                return _mapper.Map<MarkerResponse>(newMarker);
             }
-
-            var newMarker = new Marker()
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                Latitude = dto.Latitude,
-                Longitude = dto.Longitude,
-                UserId = userId,
-            };
-
-            await _dbContext.AddAsync(newMarker);
-            await _dbContext.SaveChangesAsync();
-
-            return _mapper.Map<MarkerResponse>(newMarker);
         }
 
         public async Task DeleteMarkerAsync(DeleteMarkerDto dto)
@@ -66,7 +73,6 @@ namespace AppServer.Services
             var markers = await _dbContext
                 .Markers
                 .Include(m => m.Comments)
-                .Include(m => m.Ratings)
                 .Include(m => m.User)
                 .ToListAsync();
 

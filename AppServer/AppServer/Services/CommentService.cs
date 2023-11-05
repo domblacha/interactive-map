@@ -26,12 +26,16 @@ namespace AppServer.Services
         {
             var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (userId is null)
+            var user = await _dbContext
+                 .Users
+                 .FirstOrDefaultAsync(user => user.Id == userId);
+
+            if (user is null)
             {
                 throw new BadRequestException("Coś poszło nie tak, spróbuj później");
             }
 
-            var marker = _dbContext
+            var marker = await _dbContext
                 .Markers
                 .FirstOrDefaultAsync(marker => marker.Id == dto.MarkerId);
 
@@ -44,10 +48,12 @@ namespace AppServer.Services
             {
                 Text = dto.Text,
                 MarkerId = dto.MarkerId,
-                UserId = userId,
+                Rating = dto.Rating,
+                UserId = userId!,
+                User = user
             };
 
-            await _dbContext.AddAsync(newComment);
+            _dbContext.Add(newComment);
             await _dbContext.SaveChangesAsync();
 
             return _mapper.Map<CommentResponse>(newComment);

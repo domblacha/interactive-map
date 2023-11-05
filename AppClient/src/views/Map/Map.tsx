@@ -26,16 +26,20 @@ const Map = () => {
     maxZoom: 15,
   } as ViewportProps);
 
-  const handleMapClick = useCallback((event: PointerEvent) => {
-    if (!isLoggedIn) return;
+  const handleMapClick = useCallback(
+    (event: PointerEvent) => {
+      console.log('click', isLoggedIn);
+      if (!isLoggedIn) return;
 
-    dispatch(
-      MAP_ACTION.selectCoordinates({
-        latitude: event.lngLat[1],
-        longitude: event.lngLat[0],
-      })
-    );
-  }, []);
+      dispatch(
+        MAP_ACTION.selectCoordinates({
+          latitude: event.lngLat[1],
+          longitude: event.lngLat[0],
+        })
+      );
+    },
+    [isLoggedIn]
+  );
 
   const handleViewport = useCallback((viewport: ViewportProps) => {
     if (viewport.longitude < MIN_LONGITUDE) {

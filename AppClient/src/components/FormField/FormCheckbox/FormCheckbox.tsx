@@ -1,14 +1,17 @@
+import { Controller, FieldValues } from 'react-hook-form';
 import { CheckboxProps, Checkbox } from '@mui/material';
-import { Controller } from 'react-hook-form';
 
 import { FormField } from '../types';
 
-type FormCheckboxProps<TFormValues extends Record<string, unknown>> =
+type FormCheckboxProps<TFormValues extends FieldValues> =
   FormField<TFormValues> & CheckboxProps;
 
-export default function FormCheckbox<
-  TFormValues extends Record<string, unknown>,
->({ name, control, rules, ...rest }: FormCheckboxProps<TFormValues>) {
+export default function FormCheckbox<TFormValues extends FieldValues>({
+  name,
+  control,
+  rules,
+  ...rest
+}: FormCheckboxProps<TFormValues>) {
   //   const errorMessage = errors && errors[name]?.message;
   //   const hasError = !!(errors && errorMessage);
 

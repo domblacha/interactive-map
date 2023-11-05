@@ -89,7 +89,6 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMarkerService, MarkerService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IJwtAuthManager, JwtAuthManager>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();

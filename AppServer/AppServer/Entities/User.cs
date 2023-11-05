@@ -11,6 +11,5 @@ namespace AppServer.Entities
 
         public virtual ICollection<Marker> Markers { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

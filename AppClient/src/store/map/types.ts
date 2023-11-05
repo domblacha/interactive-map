@@ -7,17 +7,14 @@ export interface Marker {
   longitude: number;
   authorName: string;
   comments: Comment[];
-  ratings: Rating[];
 }
 
-interface Comment {
+export interface Comment {
+  id: string;
+  markerId: string;
   text: string;
   authorName: string;
-}
-
-interface Rating {
-  value: number;
-  authorName: string;
+  rating: number;
 }
 
 export interface Coordinates {
@@ -38,9 +35,20 @@ export interface CreateMarkerPayload {
   longitude: number;
 }
 
+export interface CreateCommentPayload {
+  markerId: string;
+  text: string;
+  rating: number;
+}
+
 export type SelectCoordinatesPayload = Coordinates;
+
 export type SelectLocationPayload = {
   markerId: string;
 };
+
 export type MarkersPayload = Marker[];
+
 export type MarkerPayload = Marker;
+
+export type CommentPayload = Comment;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Marker } from 'react-map-gl';
 import RoomIcon from '@mui/icons-material/Room';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectMarkers } from '@/store/map/selectors';
@@ -20,11 +21,13 @@ const Markers = React.memo(() => {
       longitude={marker.longitude}
       latitude={marker.latitude}
     >
-      <RoomIcon
-        color="secondary"
-        sx={{ cursor: 'pointer' }}
-        onClick={() => handleOnMarkerClick(marker.id)}
-      />
+      <Tooltip title={marker.name} placement="right-start" arrow>
+        <RoomIcon
+          color="secondary"
+          sx={{ cursor: 'pointer' }}
+          onClick={() => handleOnMarkerClick(marker.id)}
+        />
+      </Tooltip>
     </Marker>
   ));
 });

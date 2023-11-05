@@ -9,7 +9,7 @@ import {
 
 export interface FormField<TFormValues extends FieldValues> {
   name: Path<TFormValues>;
+  control: UseFormReturn<TFormValues>['control'];
   rules?: RegisterOptions;
-  control?: UseFormReturn<TFormValues>['control'];
   errors?: Partial<DeepMap<TFormValues, FieldError>>;
 }

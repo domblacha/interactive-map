@@ -10,6 +10,7 @@ namespace AppServer.Entities
         public Guid Id { get; set; }
 
         public string Text { get; set; }
+        public int Rating { get; set; }
         public Guid MarkerId { get; set; }
         public string? UserId { get; set; }
 

@@ -4,11 +4,12 @@ import APPLICATION_ACTION from '../application/actions';
 import { toastShow } from '../toast/actions';
 
 import { MAP_ACTION } from './actions';
-import { Marker } from './types';
-import { createMarkerApi, getAllMarkersApi } from './api';
+import { Comment, Marker } from './types';
+import { createCommentApi, createMarkerApi, getAllMarkersApi } from './api';
 
 export default function* mapSaga() {
   yield takeLatest(MAP_ACTION.createMarker.type, createMarker);
+  yield takeLatest(MAP_ACTION.createComment.type, createComment);
 }
 
 export function* getAllMarkers() {
@@ -37,6 +38,25 @@ function* createMarker({
     yield put(
       toastShow({
         message: 'Nie udało się dodać znacznika, spróbuj później.',
+        variant: 'error',
+      })
+    );
+    yield put(APPLICATION_ACTION.setLoading());
+  }
+}
+
+function* createComment({
+  payload,
+}: ReturnType<typeof MAP_ACTION.createComment>) {
+  try {
+    yield put(APPLICATION_ACTION.setLoading());
+    const response: Comment = yield call(createCommentApi, payload);
+    yield put(MAP_ACTION.setComment(response));
+    yield put(APPLICATION_ACTION.setLoading());
+  } catch (e) {
+    yield put(
+      toastShow({
+        message: 'Nie udało się dodać komentarza, spróbuj później.',
         variant: 'error',
       })
     );

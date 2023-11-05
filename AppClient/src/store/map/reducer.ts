@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { MAP_ACTION } from './actions';
-import { MapState, Marker } from './types';
+import { Comment, MapState, Marker } from './types';
 
 const initialState: MapState = {
   markers: [],
@@ -47,5 +47,11 @@ export const mapReducer = createReducer(initialState, (builder) => {
       ...state,
       selectedLocation: null,
     };
+  });
+  builder.addCase(MAP_ACTION.setComment, (state, { payload }) => {
+    state.markers
+      .find((marker) => marker.id === payload.markerId)
+      ?.comments.push(payload);
+    state.selectedLocation?.comments.push(payload);
   });
 });
