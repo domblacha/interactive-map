@@ -24,8 +24,8 @@ export interface Coordinates {
 
 export interface MapState {
   markers: Marker[];
-  selectedCoordinates: Coordinates | null;
-  selectedLocation: Marker | null;
+  selectedCoordinates?: Coordinates;
+  selectedLocation?: Marker;
 }
 
 export interface CreateMarkerPayload {

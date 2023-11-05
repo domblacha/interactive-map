@@ -8,9 +8,6 @@ const initialState: ApplicationState = {
 
 export const applicationReducer = createReducer(initialState, (builder) => {
   builder.addCase(APPLICATION_ACTION.setLoading, (state) => {
-    return {
-      ...state,
-      isLoading: !state.isLoading,
-    };
+    state.isLoading = !state.isLoading;
   });
 });
