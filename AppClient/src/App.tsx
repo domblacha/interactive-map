@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     dispatch(APPLICATION_ACTION.initApp());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
